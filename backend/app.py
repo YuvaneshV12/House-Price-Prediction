@@ -3,6 +3,9 @@ from flask_cors import CORS
 import pandas as pd
 import pickle
 
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, mean_absolute_error
+
 print("Starting Flask App...")
 
 app = Flask(__name__)

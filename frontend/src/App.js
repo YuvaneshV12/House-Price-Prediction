@@ -1,15 +1,23 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Result from "./Result";
 
 function Home() {
   const navigate = useNavigate();
 
-  const [city, setCity] = useState("");
-  const [bhk, setBhk] = useState("");
-  const [size, setSize] = useState("");
-  const [furnished, setFurnished] = useState("");
-  const [age, setAge] = useState("");
+  const [city, setCity] = useState(localStorage.getItem("city") || "");
+  const [bhk, setBhk] = useState(localStorage.getItem("bhk") || "");
+  const [size, setSize] = useState(localStorage.getItem("size") || "");
+  const [furnished, setFurnished] = useState(localStorage.getItem("furnished") || "");
+  const [age, setAge] = useState(localStorage.getItem("age") || "");
+
+  useEffect(() => {
+  localStorage.setItem("city", city);
+  localStorage.setItem("bhk", bhk);
+  localStorage.setItem("size", size);
+  localStorage.setItem("furnished", furnished);
+  localStorage.setItem("age", age);
+  }, [city, bhk, size, furnished, age]);
 
   const handlePredict = async () => {
     if (!city || !bhk || !size || !furnished || !age) {
@@ -113,28 +121,36 @@ const styles = {
   container: {
     fontFamily: "Arial",
     textAlign: "center",
-    padding: "30px",
+    padding: "30px 15px",
     background: "#f4f6f8",
     minHeight: "100vh",
   },
+
   title: {
     marginBottom: "20px",
+    fontSize: "22px",   // clean fixed size (no weird scaling)
   },
+
   card: {
     background: "white",
     padding: "20px",
     borderRadius: "10px",
-    width: "300px",
+    width: "90%",          // ✅ better than 100%
+    maxWidth: "320px",     // ✅ keeps it neat
     margin: "auto",
     boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
   },
+
   input: {
     width: "100%",
     padding: "10px",
     margin: "10px 0",
     borderRadius: "5px",
     border: "1px solid #ccc",
+    fontSize: "14px",      // ✅ smaller, cleaner
+    boxSizing: "border-box", // 🔥 fixes alignment issue
   },
+
   button: {
     width: "100%",
     padding: "10px",
@@ -143,5 +159,6 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
+    fontSize: "14px",
   },
 };
